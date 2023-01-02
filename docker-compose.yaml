@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  redis:
+    build:
+      context: .
+      dockerfile: redis/Dockerfile
+    ports:
+      - "6379:6379"
+    mem_limit: 1g
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+      start_period: 1s
+  grease:
+    build:
+      context: .
+      dockerfile: grease/Dockerfile
+    network_mode: "host"
+    depends_on:
+      redis:
+        condition: service_healthy

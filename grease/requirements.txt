@@ -1,0 +1,4 @@
+redis-streams
+redis[hiredis]
+redgrease[all]
+gears-cli
